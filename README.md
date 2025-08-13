@@ -2,7 +2,7 @@
 
 A production-ready Task Management REST API built with **FastAPI** and **PostgreSQL**, demonstrating enterprise-level API design, comprehensive testing, and modern Python development best practices.
 
-## 🚀 Features
+## 🚀 Features included 
 
 - ✅ **Full CRUD Operations** - Create, read, update, and delete tasks
 - ✅ **Advanced Filtering & Sorting** - Filter by status, priority, and sort by multiple fields
