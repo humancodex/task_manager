@@ -1,5 +1,9 @@
 import logging
 from contextlib import asynccontextmanager
+from app.core.logging_config import setup_logging
+
+# Initialize logging configuration
+setup_logging()
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
