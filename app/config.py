@@ -50,7 +50,7 @@ class Settings(BaseSettings):
     
     @property
     def is_development(self) -> bool:
-        """Check if running in development environment"""
+        """Check if running in dev environment"""
         return self.environment.lower() == "development"
     
     def get_cors_origins(self) -> List[str]:
