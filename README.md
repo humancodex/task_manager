@@ -41,7 +41,7 @@ A production-ready Task Management REST API built with **FastAPI** and **Postgre
 
 ## 🏃 Quick Start
 
-### Option 1: Local Development Setup
+###  Local Development Setup 
 
 1. **Clone the repository**
    ```bash
@@ -64,10 +64,25 @@ A production-ready Task Management REST API built with **FastAPI** and **Postgre
 4. **Set up environment variables**
    ```bash
    cp .env.example .env
-   # Edit .env with your database configuration
+   # Edit .env with your database configuration if needed
+   # Default values work with the Docker PostgreSQL setup
    ```
 
-5. **Start PostgreSQL** (if not using Docker)
+5. **Start PostgreSQL with automated setup** ⭐ _Recommended!_
+   ```bash
+   # Make script executable and run automated setup
+   chmod +x scripts/setup_postgres.sh
+   ./scripts/setup_postgres.sh
+   ```
+   
+   This script will:
+   - ✅ Check Docker installation and status
+   - ✅ Start PostgreSQL container with correct configuration
+   - ✅ Create main and test databases
+   - ✅ Verify connectivity
+   - ✅ Provide helpful container management commands
+   
+   **Alternative - Manual PostgreSQL:**
    ```bash
    # macOS with Homebrew
    brew services start postgresql
@@ -78,23 +93,21 @@ A production-ready Task Management REST API built with **FastAPI** and **Postgre
 
 6. **Verify your environment** ⭐ _New!_
    ```bash
-   # Run the environment check to verify everything is set up correctly
+   # Run comprehensive environment check
    python scripts/check_environment.py
    ```
    
-   This script will check:
-   - Python version compatibility
-   - Required packages installation  
-   - Database connectivity
-   - Docker services status
-   - Environment configuration
+   This intelligent script verifies:
+   - ✅ Python version compatibility (3.11+)
+   - ✅ Required packages installation
+   - ✅ Database connectivity and health
+   - ✅ Docker services status
+   - ✅ Environment configuration
+   - ✅ Provides specific fix suggestions for any issues
 
-7. **Create database and run migrations**
+7. **Run database migrations**
    ```bash
-   # Create database (adjust connection details as needed)
-   createdb taskdb
-   
-   # Run migrations
+   # Apply database schema migrations
    PYTHONPATH=. alembic upgrade head
    ```
 
@@ -102,21 +115,11 @@ A production-ready Task Management REST API built with **FastAPI** and **Postgre
    ```bash
    uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
    ```
+   
+   🎉 **Success!** Your API is now running at http://localhost:8000
 
-### Option 2: Docker Setup (Recommended)
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd task_manager
-   ```
-
-2. **Start with Docker Compose**
-   ```bash
-   docker-compose up --build
-   ```
-
-3. **Access the application**
+#
+ **Access the application**
    - **🏠 Landing Page**: http://localhost:8000/ (smart API overview with task status)
    - **📚 API Base**: http://localhost:8000/api (all endpoints are under this path)
    - **📖 Swagger UI**: http://localhost:8000/docs (interactive API documentation)
@@ -124,6 +127,28 @@ A production-ready Task Management REST API built with **FastAPI** and **Postgre
    - **💚 Health Check**: http://localhost:8000/api/health (system status)
    
    ✨ **Smart Start**: Visit the root URL (http://localhost:8000/) to get personalized API guidance based on your current task count!
+
+### 🚀 Quick Test Commands
+
+Once your API is running, test it immediately:
+
+```bash
+# Check API health
+curl http://localhost:8000/api/health
+
+# Create your first task
+curl -X POST "http://localhost:8000/api/tasks" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Test the API",
+    "description": "Verify the task management API is working",
+    "status": "pending",
+    "priority": "high"
+  }'
+
+# List all tasks
+curl http://localhost:8000/api/tasks
+```
 
 ## ⚙️ Configuration
 
@@ -184,7 +209,7 @@ http://localhost:8000/api
 - **Documentation**: `http://localhost:8000/docs` - Interactive Swagger UI
 - **ReDoc**: `http://localhost:8000/redoc` - Alternative API documentation
 
-✨ **Smart Root Endpoint**: The root URL (`/`) now provides:
+✨ **Smart Root Endpoint**: The root URL (`/`) provides:
 - **Task Status**: Shows current task count and suggests next actions
 - **API Information**: Complete endpoint reference and base URLs
 - **Getting Started**: Example requests and quick start guide
@@ -359,6 +384,41 @@ curl -X PUT "http://localhost:8000/api/tasks/{task_id}" \
 
 ### Manual PostgreSQL Setup
 
+#### Option 1: Docker (Recommended)
+
+1. **Install Docker**
+   ```bash
+   # macOS with Homebrew
+   brew install --cask docker
+   
+   # Ubuntu/Debian
+   sudo apt update
+   sudo apt install docker.io docker-compose
+   ```
+
+2. **Start PostgreSQL container**
+   ```bash
+   docker run -d \
+     --name postgres-db \
+     -e POSTGRES_USER=taskuser \
+     -e POSTGRES_PASSWORD=taskpass \
+     -e POSTGRES_DB=taskdb \
+     -p 5432:5432 \
+     postgres:15
+   ```
+
+3. **Create test database**
+   ```bash
+   docker exec postgres-db psql -U taskuser -d taskdb -c "CREATE DATABASE taskdb_test;"
+   ```
+
+4. **Run database migrations**
+   ```bash
+   PYTHONPATH=. alembic upgrade head
+   ```
+
+#### Option 2: Local PostgreSQL Installation
+
 1. **Install PostgreSQL**
    ```bash
    # macOS with Homebrew
@@ -387,14 +447,29 @@ curl -X PUT "http://localhost:8000/api/tasks/{task_id}" \
    PYTHONPATH=. alembic upgrade head
    ```
 
-### Using the Setup Script
+### Using the Automated Setup Script (Docker-based) ⭐
 
-For convenience, use the provided setup script:
+For the best experience, use our automated setup script:
 
 ```bash
 chmod +x scripts/setup_postgres.sh
 ./scripts/setup_postgres.sh
 ```
+
+**What this script does:**
+- ✅ Validates Docker installation and status
+- ✅ Manages existing PostgreSQL containers intelligently
+- ✅ Starts PostgreSQL 15 with optimal configuration
+- ✅ Creates both main (`taskdb`) and test (`taskdb_test`) databases
+- ✅ Tests connectivity and provides troubleshooting info
+- ✅ Provides container management commands for ongoing use
+
+**Benefits:**
+- 🚀 Zero manual configuration required
+- 🐳 Uses Docker for consistent, isolated setup
+- 🔒 Secure default credentials that work out-of-the-box
+- 📋 No local PostgreSQL installation needed
+- 🛠️ Built-in error handling and helpful diagnostics
 
 ### Database Migrations
 
@@ -812,20 +887,52 @@ task_manager/
 
 ## 🔧 Troubleshooting
 
+### 🚨 Quick Diagnostic
+
+Before diving into specific issues, run our comprehensive diagnostic:
+
+```bash
+# Run the environment checker for instant diagnosis
+python scripts/check_environment.py
+
+# Check Docker services status
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+# Test API health
+curl http://localhost:8000/api/health
+```
+
 ### Common Issues
 
 #### 1. Database Connection Issues
 
-**Problem**: `FATAL: password authentication failed`
-**Solution**:
+**Problem**: `FATAL: password authentication failed` or connection refused
+
+**Quick Fix** (Docker setup):
+```bash
+# Restart PostgreSQL container with correct credentials
+docker stop postgres-db
+docker rm postgres-db
+./scripts/setup_postgres.sh
+```
+
+**Manual Fix** (Local PostgreSQL):
 ```bash
 # Check PostgreSQL is running
 brew services list | grep postgresql  # macOS
 systemctl status postgresql           # Linux
 
-# Reset password
+# Reset password (if using local PostgreSQL)
 sudo -u postgres psql
 ALTER USER taskuser PASSWORD 'taskpass';
+```
+
+**Environment Check**:
+```bash
+# Verify database URL in .env file
+cat .env | grep DATABASE_URL
+
+# Should be: postgresql://taskuser:taskpass@localhost:5432/taskdb
 ```
 
 #### 2. Port Already in Use
@@ -861,21 +968,42 @@ PYTHONPATH=. alembic upgrade head
 
 #### 4. Docker Issues
 
-**Problem**: Container fails to start
-**Solution**:
-```bash
-# Check logs
-docker-compose logs api
-docker-compose logs postgres
+**Problem**: Container fails to start or connection issues
 
-# Rebuild containers
+**Quick Diagnosis**:
+```bash
+# Check Docker status
+docker info
+
+# List all containers
+docker ps -a
+
+# Check PostgreSQL container logs
+docker logs postgres-db
+```
+
+**Solutions**:
+```bash
+# Option 1: Restart PostgreSQL container
+./scripts/setup_postgres.sh
+
+# Option 2: Full Docker Compose restart
 docker-compose down
 docker-compose up --build
 
-# Clean up and restart
+# Option 3: Clean slate (removes data!)
 docker-compose down -v
-docker system prune
+docker system prune -f
 docker-compose up --build
+
+# Option 4: Manual PostgreSQL container management
+docker stop postgres-db
+docker rm postgres-db
+docker run -d --name postgres-db \
+  -e POSTGRES_USER=taskuser \
+  -e POSTGRES_PASSWORD=taskpass \
+  -e POSTGRES_DB=taskdb \
+  -p 5432:5432 postgres:15
 ```
 
 #### 5. Import Errors
