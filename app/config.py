@@ -11,24 +11,27 @@ class Settings(BaseSettings):
     environment: str = Field(default="development", description="Environment: development, staging, production")
     
     # Security configuration
-    secret_key: str = Field(default="", description="Secret key for cryptographic operations")
+    secret_key: str = Field(description="Secret key for cryptographic operations")
     cors_origins: str = Field(
         default="http://localhost:3000,http://localhost:8080",
         description="Allowed CORS origins (comma-separated)"
     )
-    cors_allow_credentials: bool = True
+    cors_allow_credentials: bool = Field(default=True)
     
     # Rate limiting configuration
-    rate_limit_enabled: bool = True
+    rate_limit_enabled: bool = Field(default=True)
     rate_limit_requests: int = Field(default=100, description="Requests per minute per IP")
     rate_limit_window: int = Field(default=60, description="Rate limit window in seconds")
     
     # Database configuration - async PostgreSQL
-    database_url: str = "postgresql+asyncpg://taskuser:taskpass@localhost:5432/taskdb"
-    
+    database_url: str = Field(
+        description="Async PostgreSQL connection URL"
+    )
+
     # Synchronous database URL for alembic migrations
-    database_url_sync: str = "postgresql+psycopg2://taskuser:taskpass@localhost:5432/taskdb"
-    
+    database_url_sync: str = Field(
+        description="Sync PostgreSQL connection URL for migrations"
+    )
     # Server configuration
     host: str = "0.0.0.0"
     port: int = 8000
