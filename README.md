@@ -1076,13 +1076,6 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)"
    SELECT * FROM pg_stat_activity WHERE datname = 'taskdb';
    ```
 
-### Getting Help
-
-- **Check the logs**: Always start by examining application and database logs
-- **Verify environment**: Ensure all environment variables are set correctly
-- **Test connectivity**: Use health check endpoint to verify system status
-- **Consult documentation**: Review FastAPI and SQLAlchemy documentation
-- **Search issues**: Look for similar issues in the project's issue tracker
 
 ---
 
