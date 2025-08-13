@@ -163,12 +163,14 @@ APP_VERSION=1.0.0
 DEBUG=true
 
 # Database Configuration (PostgreSQL)
-DATABASE_URL=postgresql://taskuser:taskpass@localhost:5432/taskdb
+DATABASE_URL=postgresql+asyncpg://username:password@localhost:5432/database_name
+DATABASE_URL_SYNC=postgresql+psycopg2://username:password@localhost:5432/database_name
+
 
 # PostgreSQL Database Settings
-POSTGRES_USER=taskuser
-POSTGRES_PASSWORD=taskpass
-POSTGRES_DB=taskdb
+POSTGRES_USER=username
+POSTGRES_PASSWORD=password
+POSTGRES_DB=database_name
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 
