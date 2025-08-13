@@ -222,8 +222,6 @@ http://localhost:8000/api
 - **Request Size Limits**: 1MB maximum request body size
 - **Production Security**: Debug mode disabled and API docs hidden in production environments
 
-### Authentication
-No authentication required (can be added as an enhancement)
 
 ### Core Endpoints
 
@@ -1083,14 +1081,6 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## 📞 Support
-
-For questions, issues, or contributions:
-
-- **Issues**: Open an issue on GitHub
-- **Discussions**: Use GitHub Discussions for questions
-- **Email**: Contact the development team
-
 ---
 
-**Built for Morgan & Morgan**
+**Built for Morgan & Morgan team**
