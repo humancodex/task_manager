@@ -45,7 +45,7 @@ A production-ready Task Management REST API built with **FastAPI** and **Postgre
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone[ <repository-url>](https://github.com/humancodex/task_manager.git)
    cd task_manager
    ```
 
